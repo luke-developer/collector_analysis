@@ -11,7 +11,6 @@
 
 from __future__ import print_function
 import sys
-from operator import itemgetter
 import mysql.connector
 from mysql.connector import errorcode
 import unicodecsv as csv
@@ -32,28 +31,29 @@ body_val = []
 # import and set our stop words
 stops = set(stopwords.words('english'))
 
-with open('clean_csv.csv','rU') as f:
-    csv = csv.reader(f)
+def clean_collector(collector):
+    with open(collector,'rU') as f:
+        csv = csv.reader(f)
 
-    for i,row in enumerate(csv):
-        try:
-            server,body = row[6],row[0]
-            body = custom_toke.tokenize(body)
-            # get all words that are over 5 characters long to
-            # eleminate random single characters and others that may be
-            # meaningless and not be in the stop list
-            body = [w for w in body if w not in stops and len(w) > 5]
-            # calculate frequencies for all words that have made it past
-            # the first test condition and put in body
-            body = FreqDist(body)
-            body = body.most_common(100)
-        except IndexError:
-            print("ERROR")
-            continue
+        for i,row in enumerate(csv):
+            try:
+                server,body = row[6],row[0]
+                body = custom_toke.tokenize(body)
+                # get all words that are over 5 characters long to
+                # eleminate random single characters and others that may be
+                # meaningless and not be in the stop list
+                body = [w for w in body if w not in stops and len(w) > 5]
+                # calculate frequencies for all words that have made it past
+                # the first test condition and put in body
+                body = FreqDist(body)
+                body = body.most_common(100)
+            except IndexError:
+                print("ERROR")
+                continue
 
-        if server not in indexed_body:
-            indexed_body[server] = []
-            indexed_body[server].append(body)
+            if server not in indexed_body:
+                indexed_body[server] = []
+                indexed_body[server].append(body)
 
 def create_db():
     config = {
