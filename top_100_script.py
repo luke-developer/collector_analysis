@@ -37,7 +37,7 @@ with open('clean_csv.csv','rU') as f:
 
     for i,row in enumerate(csv):
         try:
-            server,body = row[6],row[0].lower()
+            server,body = row[6],row[0]
             body = custom_toke.tokenize(body)
             # get all words that are over 5 characters long to
             # eleminate random single characters and others that may be
