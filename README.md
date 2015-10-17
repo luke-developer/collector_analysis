@@ -6,7 +6,7 @@
 a = Name that you want to give the table
 
 3.Run <b>get_file(a,b)</b> method.
-a = Name of the csv you want to process
+a = Name of the csv you want to process, 
 b = Number of top words to save
 
 4.Run <b>insert_into_db(a)</b> method.
