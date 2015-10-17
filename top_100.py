@@ -78,8 +78,8 @@ def create_db():
             print(err)
     else:
         cnx.close()
-
-def create_table():
+# method to create table, user defines table name
+def create_table(tablename):
     config = {
         'user': 'root',
         'password': '',
@@ -90,7 +90,7 @@ def create_table():
     try:
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor()
-        sql = 'CREATE TABLE wordbase(SNAME VARCHAR(255) NOT NULL,TOPWORDS MEDIUMTEXT NOT NULL, PRIMARY KEY(SNAME))'
+        sql = 'CREATE TABLE '+tablename+'(SNAME VARCHAR(255) NOT NULL,TOPWORDS MEDIUMTEXT NOT NULL, PRIMARY KEY(SNAME))'
         cursor.execute(sql)
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -101,8 +101,8 @@ def create_table():
             print(err)
     else:
         cnx.close()
-
-def insert_into_db():
+# method to insert data into table, user defines which table to insert into
+def insert_into_db(tablename):
     config = {
         'user': 'root',
         'password': '',
@@ -121,7 +121,7 @@ def insert_into_db():
                 body_val.append(', '.join(y))
                 t = ','.join(y)
                 # ignore duplicate PK
-                sql = 'INSERT IGNORE INTO wordbase(SNAME,TOPWORDS) VALUES(%s,%s)'
+                sql = 'INSERT IGNORE INTO '+tablename+'(SNAME,TOPWORDS) VALUES(%s,%s)'
                 cursor.execute(sql,(url,t))
                 cursor.execute('COMMIT')     
         print("executed")
