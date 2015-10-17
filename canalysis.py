@@ -27,7 +27,7 @@ fdlist = {}
 # list to hold string of top words
 body_val = []
 
-def get_file(filename):
+def get_file(filename,numwords):
     # need to set size limit to max otherwise we run into trouble
     cc.field_size_limit(sys.maxsize)
     # custom tokenizer that get ONLY words from the webpages
@@ -48,7 +48,7 @@ def get_file(filename):
                 # calculate frequencies for all words that have made it past
                 # the first test condition and put in body
                 body = FreqDist(body)
-                body = body.most_common(100)
+                body = body.most_common(numwords)
             except IndexError:
                 print("ERROR")
                 continue
